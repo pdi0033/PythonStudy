@@ -31,7 +31,6 @@ class PayCal:
                 ename varchar(20) not null,
                 work_time int not null,
                 time_pay int not null,
-                bonus_pay int not null,
                 regdate datetime );
             """
             self.cursor.execute(sql)
@@ -60,7 +59,11 @@ class PayCal:
             return num
         
     def showAll(self):
-        sql = """select id, ename, work_time, time_pay, bonus_pay
+        sql = """select id, ename, work_time, time_pay
+        , case 
+            when work_time > 20 then (work_time-20) * (time_pay / 2)
+            else 0
+        end as bonus_pay
         , (work_time * time_pay + 
             CASE
                 WHEN work_time > 20 THEN (work_time - 20) * (time_pay / 2)
@@ -102,9 +105,7 @@ class PayCal:
             update tb_payment 
             set ename=%s
             , work_time=%s
-            , time_pay=%s
-            , regdate=now() 
-            , bonus_pay=%s
+            , time_pay=%s 
             where id=%s;
         """
         self.cursor.execute(sql, (ename, work_time, time_pay, id))
