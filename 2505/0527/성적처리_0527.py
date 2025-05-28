@@ -96,7 +96,8 @@ class ScoreManager:
 
     def update(self):
         resultList = self.search()
-
+        for data in resultList:
+            data.output()
         sql = """
                 insert into tb_score(sname, kor, eng, mat)
                 values(:sname, :kor, :eng, :mat)
