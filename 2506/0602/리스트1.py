@@ -98,16 +98,38 @@ class Book:
     
     def __str__(self):
         return f"{self.title}, {self.author}, {self.publisher}"
+    
+    def __eq__(self, other):
+        if self.title == other.title:
+            return True
+        return False
+    
+def myfunc(o):
+    return o.title
 
 print(Book("마법사의 돌", "조앤롤링", "해냄") >
       Book("마법사의 돌", "조앤롤링", "해냄"))
 print(Book("마법사의 돌", "조앤롤링", "해냄") >
       Book("그리고 아무도 없었다.", "아가사 크리스티", "마르틴 프레스"))
 
-m1.insertOrder(Book("마법사의 돌", "조앤롤링", "해냄"))
-m1.insertOrder(Book("그리고 아무도 없었다.", "아가사 크리스티", "마르틴 프레스"))
-m1.insertOrder(Book("구운몽", "김만중", "조선 중기"))
-m1.print2()
+m2 = MyList()
+m2.insertOrder(Book("마법사의 돌", "조앤롤링", "해냄"), myfunc)
+m2.insertOrder(Book("그리고 아무도 없었다.", "아가사 크리스티", "마르틴 프레스"), myfunc)
+m2.insertOrder(Book("구운몽", "김만중", "조선 중기"), myfunc)
+m2.insertOrder(Book("쌍갑포차", "배혜수", "네이버"))
+m2.insertOrder(Book("뽀짜툰", "유리", "카카오"))
+m2.insertOrder(Book("무빙", "강풀", "카카오"))
+m2.print2()
+
+b1 = Book("쌍갑포차")
+b2 = Book("쌍갑포차")
+print(b1 == b2)     # b1과 b2의 내용 비교가 아니고,
+s1 = str("hello")
+s2 = str("hello")
+print(s1 == s2)
+# b1이 참조만 저장, b2도 참조만 저장
+# 둘이 동일한 객체를 참조하고 있는가?
+# "hello".equals(temp)
 
 
 
