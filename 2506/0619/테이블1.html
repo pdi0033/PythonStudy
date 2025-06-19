@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>테이블</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <style>
+        /* table, th, tr    th-행, tr-행*/
+        table, th, tr, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        table{
+            /* border:7px solid red; */
+            width: 80%;
+            margin-left: auto;  /*여백 자동으로 잡아라 */
+            margin-right: auto;  /*여백 자동으로 잡아라 */
+        }
+        tr {
+            /* border: 5px solid green; */
+        }
+        td {
+            /* border: 3px solid blue; */
+            padding: 10px 5px;
+        }
+    </style>
+    <body>
+        <table>
+            <tr>
+                <td>1행 1열</td>
+                <td>1행 2열</td>
+                <td>1행 3열</td>
+            </tr>
+            <tr>
+                <td>2행 1열</td>
+                <td>2행 2열</td>
+                <td>2행 3열</td>
+            </tr>
+        </table>
+
+        <h1>테이블 행/열 병합하기</h1>
+        <table>
+            <tr>
+                <td rowspan="2">1행 1열 행합치기</td>
+                <td>1행 2열</td>
+                <td>1행 3열</td>
+            </tr>
+            <tr>
+                <!-- <td>2행 1열</td> -->
+                <td>2행 2열</td>
+                <td>2행 3열</td>
+            </tr>
+        </table>
+
+        <hr>
+        <table>
+            <tr>
+                <td colspan="3">1행 1열 열합치기</td>
+                <!-- <td>1행 2열</td>
+                <td>1행 3열</td> -->
+            </tr>
+            <tr>
+                <td>2행 1열</td>
+                <td>2행 2열</td>
+                <td>2행 3열</td>
+            </tr>
+        </table>
+        <script src="" async defer></script>
+    </body>
+</html>
