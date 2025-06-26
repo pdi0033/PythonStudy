@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    x : <input type="text" name="x" id="x"> <br/>
+    y : <input type="text" name="y" id="y"> <br/>
+    <div id="result"></div>
+    <button type="button" id="btnAdd">+</button>
+    <button type="button" id="btnSub">-</button>
+    <button type="button" id="btnMul">*</button>
+    <button type="button" id="btnDiv">/</button>
+    
+    <script>
+        $(document).ready(()=> {
+            $("#btnAdd").click(()=> {
+                $("#result").html( parseInt($('#x').val()) +
+                                    parseInt($('#y').val()) );
+            });
+            $("#btnSub").click(()=> {
+                $("#result").html( parseInt($('#x').val()) -
+                                    parseInt($('#y').val()) );
+            });
+            $("#btnMul").click(()=> {
+                $("#result").html( parseInt($('#x').val()) *
+                                    parseInt($('#y').val()) );
+            });
+            $("#btnDiv").click(()=> {
+                $("#result").html( parseInt($('#x').val()) /
+                                    parseInt($('#y').val()) );
+            });
+        });
+    </script>
+</body>
+</html>

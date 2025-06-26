@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>누르세요</h1>
+    <h1 id="brown">brown</h1>
+    <h1 id="gold">gold</h1>
+
+    <h1 class="blue">파란색 스타일</h1>
+    <h1 class="blue">파란색 스타일</h1>
+    <h1 class="blue">파란색 스타일</h1>
+
+    <h1 class="red">빨간색 스타일</h1>
+    <h1 class="red">빨간색 스타일</h1>
+    <h1 class="red">빨간색 스타일</h1>
+
+    <script>
+        $(document).ready( ()=> {
+            $("#brown").click( ()=> {
+                $("#brown").prop('style', 'color:brown');
+            });
+            $('#gold').click( ()=> {
+                $('#gold').prop('style', 'color:gold');
+            });
+            $('.blue').click( ()=> {
+                $('.blue').prop('style', 'color:blue');
+            });
+            $('.red').click( ()=> {
+                $('.red').prop('style', 'color:red');
+            });
+        });
+    </script>
+</body>
+</html>

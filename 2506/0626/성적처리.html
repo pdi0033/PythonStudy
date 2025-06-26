@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성적처리</title>
+</head>
+<body>
+    이름: <input type="text" name="" id="name"> <br/>
+    국어: <input type="text" name="" id="kor"> <br/>
+    영어: <input type="text" name="" id="eng"> <br/>
+    수학: <input type="text" name="" id="mat"> <br/>
+    <div style="border:1px solid red; width: 500px; height: 50px;" id="result"></div>
+    <button type="button" id="btnTotal">확인</button>
+
+    <script>
+        let btnAdd = document.querySelector('#btnTotal');
+        // button에 클릭이벤트가 발생하면 전달된 람다를 호출한다.
+        btnAdd.addEventListener('click', ()=> {
+            name = document.querySelector('#name').value;
+            kor = document.querySelector('#kor').value;
+            eng = document.querySelector('#eng').value;
+            mat = document.querySelector('#mat').value;
+
+            document.querySelector('#result').innerHTML = 
+                name + "님의 총점은 " + (parseInt(kor) + parseInt(eng) + parseInt(mat)) + "입니다.";
+        });
+    </script>
+</body>
+</html>
