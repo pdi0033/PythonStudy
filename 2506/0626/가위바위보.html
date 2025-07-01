@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>가위바위보 게임</h1>
+    <input type="radio" name="game" value="1" id="scissors">
+    <label for="scissors" >가위</label>
+    <input type="radio" name="game" value="2" id="rock">
+    <label for="rock">바위</label>
+    <input type="radio" name="game" value="3" id="paper">
+    <label for="paper">보</label>
+    <br/>
+
+    <input type="button" id="do" value="제출" style="width: 100px; height: 60px;">
+    <div id="result"></div>
+
+    <script>
+        /*
+        1. 컴퓨터가 생각을 한다.
+        computer = Math.ceil( Math.random() * 3);
+        console.log( computer );
+        2. 사람이 버튼을 누른다. = 가위바위보 중에 선택을 한다.
+        3. 누가 이겼는지 판단 후 출력한다.
+        */
+        $(function() {
+            $("#do").click(()=> {
+                srp = ["", "가위", "바위", "보"];
+                computer = Math.ceil( Math.random() * 3);
+                console.log( computer );
+                let selected = parseInt($("input[name=game]:checked").val());
+                if (selected) {
+                    console.log("선택: ", selected);
+                }
+                else {
+                    console.log("아무것도 선택하지 않았습니다.");
+                    return;
+                }
+                if (selected == computer) {
+                    s = `컴퓨터: ${srp[computer]}, 사람: ${srp[selected]}, 무승부`
+                    $("#result").html(s);
+                }
+                else if ((selected == 1 && computer == 3) || (selected == 2 && computer == 1) || (selected == 3 && computer == 1)) {
+                    s = `컴퓨터: ${srp[computer]}, 사람: ${srp[selected]}, 사람승`
+                    $("#result").html(s);
+                }
+                else {
+                    s = `컴퓨터: ${srp[computer]}, 사람: ${srp[selected]}, 컴퓨터승`
+                    $("#result").html(s);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
