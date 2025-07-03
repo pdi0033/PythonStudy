@@ -7,7 +7,7 @@ print(s1.isnull().sum())
 # c언어 True는 1이고 False는 0으로 해석
 # [0,0,0,0,1].sum()
 
-data = pd.read_csv("./data/data.csv")
+data = pd.read_csv("../data/data.csv")
 print(data.shape)
 print(data.info())
 print(data.describe())
@@ -32,7 +32,7 @@ data2 = data.dropna(thresh=28, axis=1)      # 데이터 개수가 27개인 열�
 print(data2.shape)
 print(data2.head())
 
-data = pd.read_csv('./data/auto-mpg.csv')
+data = pd.read_csv('../data/auto-mpg.csv')
 print(data.info())
 
 print(data['horsepower'].isnull().sum())
