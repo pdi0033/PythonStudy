@@ -80,15 +80,3 @@ model = DecisionTreeClassifier()
 result = cross_val_score(model, X, y, scoring="accuracy", cv=5)
 # 정밀도로 하자 cv=5 몇번 접을꺼냐
 print(result)
-
-
-
-
-
-
-
-
-
-
-
-
