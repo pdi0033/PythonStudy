@@ -65,3 +65,7 @@ for model_name, result in results.items():
     print("\nClassification Report:\n", classification_report(y_test, y_pred))
     print("Test Set Accuracy:", accuracy_score(y_test, y_pred))
 
+# 옵투나 => 베이지안 정리, GridSearchCV 업그레이드 버전
+
+
+
