@@ -1,0 +1,15 @@
+텐서플로우 설치
+cmd창을 관리자 권한으로 실행
+
+1. 환경변수 만들기
+conda create --name deeplearning
+
+2. 환경 활성화
+conda activate deeplearning
+
+3. 텐서플로우 설치
+conda install tensorflow == 버전
+
+4. 설치테스트
+python
+import tensorflow
