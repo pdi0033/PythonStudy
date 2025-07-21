@@ -33,5 +33,3 @@ for tr in trList:
 
 print(df)
 
-
-
