@@ -1,0 +1,8 @@
+*.jpg
+*.png
+*.jpeg
+*.keras
+*.h5
+*.ckpt
+*.txt
+*.csv

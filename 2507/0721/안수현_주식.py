@@ -53,3 +53,5 @@ if response.status_code == 200:
 
 print("업종 상위")
 print(df2)
+
+df2.to_csv("업종상위.csv", encoding='utf-8-sig', index=False)
