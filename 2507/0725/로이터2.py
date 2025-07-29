@@ -144,6 +144,3 @@ print(results)
 #학습중의 history를 갖고 있다
 history_dict = history.history
 print( history_dict.keys())
-
-
-
