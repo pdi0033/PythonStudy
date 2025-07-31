@@ -8,3 +8,5 @@
 *.csv
 *.bin
 *.npz
+*.tar
+*.gz
