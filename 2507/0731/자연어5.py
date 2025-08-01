@@ -130,14 +130,3 @@ callbacks = [
 ]
 model.fit(int_train_ds, validation_data=int_val_ds, epochs=5, callbacks=callbacks)
 print("테스트셋:", model.evaluate(int_test_ds))
-
-
-
-
-
-
-
-
-
-
-
