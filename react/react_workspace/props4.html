@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <!-- 모든 출력은 root 아이디 안에 -->
+    <div id="root"></div>
+
+    <script type="text/babel">
+        let rootNode = document.getElementById("root");
+        
+        // ReactDOM 라이브러리와 위에 있는 div태그랑 연동하고 모든 코드는 React.StrictMode에
+        ReactDOM.createRoot(rootNode).render(
+            <React.StrictMode>
+                <h1>Hello React</h1>
+                <App />
+            </React.StrictMode>
+        )
+
+        function App() {
+            const [result, setResult] = React.useState(0);
+            
+            const cal= (c, x, y)=> {
+                switch(c){
+                    case "add": setResult(x + y); break;
+                    case "sub": setResult(x - y); break;
+                    case "mul": setResult(x * y); break;
+                    case "div": setResult((x / y).toFixed(0)); break;   // 소수점자리수 없애기
+                }
+            }
+
+            return (
+                <div>
+                    <h1>결과: {result}</h1>
+                    <h1>부모함수에 매개변수 전달하기</h1>
+                    <ChildComponent cal={cal} />
+                </div>
+            )
+        }
+
+        function ChildComponent({cal}) {
+            const [x, setX] = React.useState(15);
+            const [y, setY] = React.useState(5);
+
+            function xChange(e) {
+                setX(e.target.value);
+            }
+
+            function yChange(e) {
+                setY(e.target.value);
+            }
+
+            return (
+                <div>
+                    x: <input type="text" onChange={xChange} /> <br/>
+                    y: <input type="text" onChange={yChange} /> <br/>
+                    <button type="button" onClick={()=> cal("add", parseInt(x), parseInt(y))}>+</button>
+                    <button type="button" onClick={()=> cal("sub", parseInt(x), parseInt(y))}>-</button>
+                    <button type="button" onClick={()=> cal("mul", parseInt(x), parseInt(y))}>*</button>
+                    <button type="button" onClick={()=> cal("div", parseInt(x), parseInt(y))}>/</button>
+                </div>
+            )
+        }
+
+        function ChildComponent2({func}) {
+            return (
+                <div>
+                    <h1>ChildComponent2</h1>
+                    <button type="button" onClick={func}>클릭</button>
+                </div>
+            )
+            
+        }
+    </script>
+</body>
+</html>

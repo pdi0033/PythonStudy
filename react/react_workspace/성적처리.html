@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <!-- 모든 출력은 root 아이디 안에 -->
+    <div id="root"></div>
+
+    <script type="text/babel">
+        let rootNode = document.getElementById("root");
+        
+        // ReactDOM 라이브러리와 위에 있는 div태그랑 연동하고 모든 코드는 React.StrictMode에
+        ReactDOM.createRoot(rootNode).render(
+            <React.StrictMode>
+                <h1>Hello React</h1>
+                <Calculator/>
+            </React.StrictMode>
+        )
+
+        // input 태그랑 state 연동하기
+        function Calculator() {
+            const [name, setName] = React.useState("");
+            const [kor, setKor] = React.useState(0);
+            const [eng, setEng] = React.useState(0);
+            const [mat, setMat] = React.useState(0);
+            const [total, setTotal] = React.useState(0);
+            const [avg, setAvg] = React.useState(0);
+            const display = ()=>{
+                let sum = parseInt(kor) + parseInt(eng) + parseInt(mat);
+                setTotal(sum);
+                setAvg(sum / 3);
+            }
+
+            function nameChange(e) {
+                setName(e.target.value);
+            }
+
+            function korChange(e) {
+                setKor(e.target.value);
+            }
+
+            function engChange(e) {
+                setEng(e.target.value);
+            }
+
+            function matChange(e) {
+                setMat(e.target.value);
+            }
+
+            // 이름, 국어, 영어, 수학 입력받고
+            // 총점, 평균 출력하는 컴포넌트 Score 만들기
+            return (
+                <div>
+                    이름: <input type="text" onChange={nameChange} /> <br/>
+                    국어: <input type="text" onChange={korChange} /> <br/>
+                    영어: <input type="text" onChange={engChange} /> <br/>
+                    수학: <input type="text" onChange={matChange} /> <br/>
+                    <button type="button" onClick={display}>클릭</button>
+                    <h1>확인</h1>
+                    <p>이름: {name}</p>
+                    <p>국어: {kor}</p>
+                    <p>영어: {eng}</p>
+                    <p>수학: {mat}</p>
+                    <p>총점: {total}</p>
+                    <p>평균: {avg}</p>
+                </div>
+            )
+        }
+    </script>
+</body>
+</html>
