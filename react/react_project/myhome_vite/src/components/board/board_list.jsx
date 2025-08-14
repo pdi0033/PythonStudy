@@ -33,7 +33,7 @@ function BoardList(){
                         {
                             boardList.map((item, i)=>{
                                 return(
-                                    <tr key={item.id}>
+                                    <tr key={i}>
                                         <td>{item.id}</td>
                                         <td>{item.title}</td>
                                         <td>{item.writer}</td>

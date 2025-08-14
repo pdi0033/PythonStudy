@@ -12,6 +12,7 @@ import Nomatch from './pages/nomatch'
 import ScoreList from './components/score/score_list'
 import ScoreWrite from './components/score/score_write'
 import TodoList from './components/todos/todo_list'
+import BoardList from './components/board/board_list';
 import BoardWrite from './components/board/board_write';
 
 function App() {
@@ -49,3 +50,5 @@ function App() {
 }
 
 export default App
+
+// npm run dev
