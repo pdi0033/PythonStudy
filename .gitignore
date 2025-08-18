@@ -11,3 +11,5 @@
 *.tar
 *.gz
 *.vec
+data
+*.pth
