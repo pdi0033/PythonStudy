@@ -1,7 +1,3 @@
-# 1. mnist 학습한 내용을 모델로 저장
-# 2. fastapi 서버 만들고, 프론트는 생략
-    # 스웨거 => 이미지 업로드(0, 1 올리면) 입력한 데이터 맞추기
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -12,28 +8,27 @@ import numpy as np
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 
-# 1. 하이퍼파라미터 설정하기
-batch_size = 64     # 메모리가 적어서 못 갖고 오면 이걸 줄이면 된고 메모리가 충분하면 값을 늘린다.
-learning_rate = 0.001
-epochs = 100
-# 장치가 gpu가 있으면 gpu를 쓰고 없으면 cpu 쓰기
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+from fastapi import FastAPI 
+from fastapi.responses import JSONResponse 
+from fastapi import APIRouter, Depends 
+from database import Database
+import os, shutil
+from typing import Optional     
+from fastapi import UploadFile, File, Form, HTTPException
 
-# 2. 데이터준비
-# 이미지 전처리를 위한 변환 정의
-transform = transforms.Compose([
-    transforms.ToTensor(),      # PIL 이미지를 PyTorch 텐서로 변환한다. (0~1 사이의 값)
-    transforms.Normalize( (0.5,), (0.5,) )  # 텐서를 평균 0.5, 표준편차 0.5로 정규화한다.
-])
+# 파일 업로드 Depends   main.py파일과 board.py 간에 변수를 주고 받아야할 때 사용할 라이브러리
 
-# 3. 데이터셋 다운로드 및 로드
-train_dataset = datasets.MNIST(root="../../data", train=True, transform=transform, download=True)
-train_loader = DataLoader(dataset= train_dataset, batch_size=batch_size, shuffle=True)
+settings_container = {}
+def get_settings():
+    return settings_container.get("settings")
 
-test_dataset = datasets.MNIST(root="../../data", train=False, transform=transform, download=True)
-test_loader = DataLoader(dataset= test_dataset, batch_size=batch_size, shuffle=True)
 
-# 4. 완전연결신경망 만들기
+router = APIRouter(
+    prefix="/predict",  #url요청이 /predict/~~~~ 로 오는것은 여기서 다 처리한다는 의미임 
+    tags=["predict"],     #swager문에 표시될 태그임   
+    responses= {404:{'decription':'Not found'}} #예외처리 
+)
+
 class ImageClassifier(nn.Module):
     def __init__(self, input_size=28*28, hidden_size=500, num_classes=10):
         # 그림 크기가 28 by 28
@@ -50,44 +45,6 @@ class ImageClassifier(nn.Module):
         x = self.fc2(x)
         return x
 
-# 5. 모델 만들기
-model = ImageClassifier()
-
-# 6. 손실함수와 옵티마이저 정의하기
-criterion = nn.CrossEntropyLoss()   # 손실함수 - 다중분류, softmax를 제공함.
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)     # 옵티마이저
-
-def train_model(epochs=100):
-    for epoch in range(epochs):
-        for i, (images, labels) in enumerate(train_loader):
-            # 순전파
-            outputs = model(images)
-            loss = criterion(outputs, labels)   # 손실계산
-            optimizer.zero_grad()   # 가중치 초기화
-            loss.backward()     # 역전파
-            optimizer.step()     # 가중치 업데이트
-            if (i+1)%100 == 0:
-                print(f'Epochs [{epoch+1}/{epochs}]  Step [{i+1}/{len(train_loader)}]  Loss {loss.item():.4f}')
-    
-    save_model()
-
-def evaluate_model():
-    with torch.no_grad():
-        correct = 0
-        total = 0
-        for images, labels in test_loader:
-            outputs = model(images)
-            _, predicted = torch.max(outputs.data, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
-    accuracy = 100 * correct/total
-    print(f"테스트셋 정확도: {accuracy:.2f}")
-
-def save_model():
-    torch.save(model.state_dict(), "mnist_model.pth")   # 학습한 내용을 저장
-
-# 이미지 하나를 읽어서 예측하기
-# 이미지 처리 라이브러리
 from PIL import Image
 def predict_image(image_path):
     try:
@@ -140,12 +97,38 @@ def predict_image(image_path):
 
         return predicted_class, predicted_prob
 
-if __name__ == "__main__":
-    train_model(epochs=10)
-    evaluate_model()
+@router.get("/")
+def predict_index():
+    return {"msg":"예측하기"}
 
-    # 예측하려는 JPEG 파일 경로를 입력
-    image_path = '../../data/MNIST/mnist/0.jpg'
+# 데이터 추가 - 파일 업로드 받을 때는 multipart라는 방식으로 온다.
+# Body, Pydemic 안 된다. Form으로만 받는다.
+@router.post("/insert")
+def predict_insert(
+    filename:Optional[UploadFile] = File(None),
+    settings:dict = Depends(get_settings)
+):
 
-    # 예측
-    predict_image(image_path)
+    # 파일 업로드 먼저 처리하기
+    predict_class = "예측불가"
+    predict_prob = 0
+
+    if filename and filename.filename:
+        file_location = os.path.join(settings["UPLOAD_DIRECTORY"],
+                                     filename.filename)
+        # 클라이언트로부터 파일을 받아온다.
+        # 이때 모든 정보는 filename 객체로 받아옴.
+        # 이 객체는 filename 속성도 있고, file 정보 속성도 있다.
+        # 확인해서 파일 정보가 맞지 않으면 정지시키거나 지나치게 용량이 커도 안 된다.
+        # 용량 확인도 해줘야 하는데 copyfileobj를 통해서 서버 폴더에 저장함.
+        with open(file_location, "wb") as buffer:
+            shutil.copyfileobj(filename.file, buffer)
+
+        predict_class, predict_prob = predict_image(file_location)
+        predict_class = predict_class.item()
+
+        file_response = f"파일 {filename.filename}가 업로드 되었습니다."
+    else:
+        file_response = "파일이 첨부되지 않았습니다."
+    
+    return {"msg":"등록성공", "클래스":predict_class, "확률":predict_prob}

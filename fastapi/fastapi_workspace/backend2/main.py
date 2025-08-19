@@ -81,19 +81,26 @@ def index():
     return {"message":"Hello FastAPI"}
 
 # 라우터 연결하기
-from routers import board, mnist
+from routers import board, mnist, predict
 
 # 모듈과 모듈 간에 전역 변수는 원칙적으로 없다.
 # 전달
 # Dependency Injection - 의존성 강제주입
 board.settings_container["settings"] = my_global_settings
+predict.settings_container["settings"] = my_global_settings
+
 app.include_router(board.router)        # http://127.0.0.1:8000/board ~~ ==> board.py가 처리한다.
 app.include_router(mnist.router)
+app.include_router(predict.router)
 
 # 실행방법
 # conda activate backend
 # backend 폴더까지 가기
 # python -m uvicorn main:app --reload --port 8000
+
+# 확인
+# 브라우저: 127.0.0.1:8000
+# 스웨거: 127.0.0.1:8000/docs
 
 # cmd
 # conda install pymysql sqlalchemy

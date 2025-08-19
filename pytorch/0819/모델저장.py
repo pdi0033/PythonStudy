@@ -141,11 +141,11 @@ def predict_image(image_path):
         return predicted_class, predicted_prob
 
 if __name__ == "__main__":
-    train_model(epochs=10)
-    evaluate_model()
+    # train_model(epochs=10)
+    # evaluate_model()
 
     # 예측하려는 JPEG 파일 경로를 입력
-    image_path = '../../data/MNIST/mnist/0.jpg'
+    image_path = '../../data/MNIST/mnist/2.jpg'
 
     # 예측
     predict_image(image_path)

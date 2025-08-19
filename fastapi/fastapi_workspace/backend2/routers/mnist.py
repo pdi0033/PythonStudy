@@ -1,3 +1,10 @@
+"""
+pip install python-multipart
+pip install fastapi
+pip install uvicorn
+pip install pymysql sqlalchemy
+"""
+
 from fastapi import FastAPI 
 from fastapi.responses import JSONResponse 
 
